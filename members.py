@@ -1,0 +1,8 @@
+file = open("files/members.txt", "r")
+members = file.readlines()
+file.close()
+new_member = input("Enter the new member's name: ")
+members.append(new_member)
+file = open("files/members.txt", "w")
+file.writelines(members)
+file.close()
