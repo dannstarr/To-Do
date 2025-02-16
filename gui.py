@@ -16,31 +16,39 @@ while True:
     event, values = window.read()
     print(event)
     print(values)
+
+    if event in (sg.WIN_CLOSED, "Exit"):
+        break
+
+    todos = functions.get_todos()
+
     match event:
         case "Add":
-            todos = functions.get_todos()
-            new_todo = values["todo"] + "\n"
-            todos.append(new_todo)
+            new_todo = values["todo"].strip()
+            if not new_todo:
+                continue  # Prevent adding empty todos
+
+            todos.append(new_todo + "\n")
             functions.write_todos(todos)
 
-            # Clear the input box
-            window['todo'].update("")
-            # Update the todo list on screen
-            window['todos'].update(values=todos)
+            window['todo'].update("")  # Clear input box
+            window['todos'].update(values=todos)  # Refresh list
+
         case "Edit":
-            todo_to_edit = values["todos"][0]
-            new_todo = values['todo'] + "\n"
+            if values["todos"]:  # Check if an item is selected
+                todo_to_edit = values["todos"][0]
+                new_todo = values["todo"].strip()
+                if not new_todo:
+                    continue  # Prevent empty edits
 
-            todos = functions.get_todos()
-            index = todos.index(todo_to_edit)
-            todos[index] = new_todo
-            functions.write_todos(todos)
-            window['todos'].update(values=todos)
+                index = todos.index(todo_to_edit)
+                todos[index] = new_todo + "\n"
+                functions.write_todos(todos)
+
+                window['todos'].update(values=todos)
+
         case "todos":
-            window['todo'].update(value=values['todos'][0])
-        case sg.WIN_CLOSED:
-            break
-
-
+            if values["todos"]:  # Avoid IndexError
+                window['todo'].update(value=values['todos'][0])
 
 window.close()

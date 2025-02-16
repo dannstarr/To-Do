@@ -1,8 +1,4 @@
-Do Python GUI's
-pack the suitcase
-clean the bag
-Eat the cheese
-Learn python
-do all the things
-eat the food
-take the trash
+Test
+Take the bag
+Clean the pot
+Run the races
